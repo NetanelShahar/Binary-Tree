@@ -20,7 +20,7 @@ Tree::~Tree() {
 //Re-creation of leaves
 Tree::node* Tree::Creat_Leaf(int x) {
 
-	if(contains(key)==true) {
+	if(contains(x)==true) {
 		throw std::invalid_argument("The number already exists in the tree");
 		return NULL;
 }
