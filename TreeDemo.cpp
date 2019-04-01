@@ -25,7 +25,7 @@ int main() {
     threetree.insert(5);
     threetree.insert(7);
     threetree.insert(3);
-    cout << "threetree: size=" << threetree.size() << " root=" << threetree.root() << endl << "   ";  // size=3, root=5.
+    cout << "threetree: size=" << threetree.size() << " root=" << threetree.root() << endl << "   "<<endl;  // size=3, root=5.
     threetree.print();
     cout << endl;
       
