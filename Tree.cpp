@@ -2,6 +2,11 @@
 #include "Tree.hpp"
 #include <string.h>
 
+#include <iostream>
+#include <cmath>
+#include <cassert>
+#include <string>
+
 using namespace std;
 using namespace ariel;
 
@@ -14,7 +19,6 @@ Tree::Tree()
 {
     Tree::myroot = NULL;
     tree_size = 0;
-    
 }
 
 Tree::~Tree()
@@ -23,7 +27,7 @@ Tree::~Tree()
     // Remove_auxiliary_tree(myroot);
 }
 
-//Re-creation of leaves
+// //Re-creation of leaves
 // Tree::node *Tree::Creat_Leaf(int x)
 // {
 
@@ -38,18 +42,13 @@ Tree::~Tree()
 
 // 	return N;
 // }
-///////////////////////////////////////////////////////
-//  if (tree_size == 0)
-//     {
-//         this->myroot = newNode;
-//         this->tree_size++;
-//         return;
+/////////////////////////////////////////////////////
 
 void Tree::insert(int x)
 {
-    if (!contains(x))
+    if (contains(x))
         return;
-    Node* newNode = new Node(x);
+    Node *newNode = new Node(x);
 
     if (tree_size == 0)
     {
@@ -65,30 +64,34 @@ void Tree::helpInsert(Node *newNode, Node *localNode, Node *parent)
 
     if (localNode == NULL)
     {
-        localNode=newNode;
+        localNode = newNode;
         newNode->parent = parent;
-        if(newNode->data>parent->data)
+        if (newNode->data > parent->data)
         {
-            parent->right=newNode;
-        }else
-        {
-            parent->left=newNode;
+            parent->right = newNode;
         }
-        
+        else
+        {
+            parent->left = newNode;
+        }
+
         this->tree_size++;
-    return;
-    }else{
-    if (newNode->data < localNode->data)
-    {
-        helpInsert(newNode, localNode->left, localNode);
+        return;
     }
-    if (newNode->data > localNode->data)
+    else
     {
-        helpInsert(newNode, localNode->right, localNode);
-    }}
+        if (newNode->data < localNode->data)
+        {
+            helpInsert(newNode, localNode->left, localNode);
+        }
+        if (newNode->data > localNode->data)
+        {
+            helpInsert(newNode, localNode->right, localNode);
+        }
+    }
 }
 
-void Tree::print() ///print in-order
+void Tree::print() ///print in-order//
 {
     helpPrint(myroot);
 }
@@ -109,35 +112,28 @@ void Tree::helpPrint(Node *node)
 
 int Tree::parent(int x)
 {
-    //////lets throw an exception if the root is null/////////////
-    if (contains(x))
-        // cout<<"firsssssssssssssssssssssssst";
-        return catch_num(myroot, x).parent->data;
-    //   cout<<"lasssssssssssssssssssssssssst";
-    return 0;
+    if (!contains(x))
+        throw string("this tree does not contains ");
+    return catch_num(myroot, x).parent->data;
 }
 
 int Tree::right(int x)
 {
-    //////lets throw an exception if the root is null/////////////
-    if (contains(x))
-        return catch_num(myroot, x).right->data;
-    return 0;
+    if (!contains(x))
+        throw string("this tree does not contains ");
+    return catch_num(myroot, x).right->data;
 }
 
 int Tree::left(int x)
 {
-    //////lets throw an exception if the root is null/////////////
-    if (contains(x))
-        return catch_num(myroot, x).left->data;
-    return 0;
+    if (!contains(x))
+        throw string("this tree does not contains ");
+    return catch_num(myroot, x).left->data;
 }
 
 Node Tree::catch_num(Node *node, int x)
 {
 
-    // if(!contains(x))
-    //     return;
     if (node->data == x)
         return *node;
     if (x < node->data)
@@ -158,9 +154,32 @@ int Tree::root()
 
 bool Tree::contains(int x)
 {
+    return helpContains(myroot,x);
+}
+bool Tree::helpContains(Node *node, int x)
+{
+    if (myroot == NULL)
+    {
+        //cout<<"bbbbbbbbbbbbBBbbbb"<<endl;
+        return false;
+    }
 
-    // return contains_Private(x, myroot);
-    return true;
+    if (node->data == x)
+    {
+        //cout<<"AaaaaaAAA"<<endl;
+        return true;
+
+    }
+    
+    if (x<node->data)
+    {
+        if(node->left==NULL)
+        return false;
+        return helpContains(node->left,x);
+    }else{
+    if(node->right==NULL)
+        return false;}
+    return helpContains(node->right,x);
 }
 
 bool Tree::remove(int x)

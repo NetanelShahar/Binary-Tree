@@ -21,6 +21,7 @@ class Tree
 	void helpInsert(Node* myNode, Node* node,Node* parent);
 	void helpPrint(Node* node);
 	Node catch_num(Node* node, int x);
+	bool helpContains(Node* node,int x);
 
 
   public:
