@@ -157,6 +157,8 @@ int Tree::size() //check how items we have in our tree.
 
 int Tree::root() // returns the value of the root
 {
+    if(this->myroot==NULL)
+    throw string("this tree does not contains ");
     return this->myroot->data;
 }
 
@@ -321,11 +323,13 @@ void Tree::removeRoot()
 
         myroot = myroot->right;
         myroot->parent = NULL;
+        tree_size--;
     }
     else if (myroot->right == NULL)
     {
         myroot = myroot->left;
         myroot->parent = NULL;
+        tree_size--;
     }
     else
     {
@@ -334,6 +338,7 @@ void Tree::removeRoot()
         int tempo = myroot->data;
         myroot->data = next_num->data;
         next_num->data = tempo;
+        tree_size--;
 
         if (next_num->left == NULL && next_num->right == NULL)
         {

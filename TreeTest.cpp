@@ -12,55 +12,54 @@ using std::cout, std::endl;
 
 int main()
 {
-  ariel::Tree emptytree;
-  ariel::Tree threetree;
-  threetree.insert(5);
-  threetree.insert(7);
-  threetree.insert(3);
+    ariel::Tree emptytree;
+    ariel::Tree threetree;
+    threetree.insert(5);
+    threetree.insert(7);
+    threetree.insert(3);
 
-  ariel::Tree mytree;
+    ariel::Tree mytree;
 
-  badkan::TestCase tc("Binary tree");
-  tc
-      .CHECK_EQUAL(emptytree.size(), 0)
-      .CHECK_OK(emptytree.insert(5))
-      .CHECK_EQUAL(emptytree.size(), 1)
-      .CHECK_EQUAL(emptytree.contains(5), true)
-      .CHECK_OK(emptytree.remove(5))
-      .CHECK_EQUAL(emptytree.contains(5), false)
-      .CHECK_THROWS(emptytree.remove(5))
-      .CHECK_EQUAL(emptytree.size(), 0)
+    badkan::TestCase tc("Binary tree");
+    tc
+        .CHECK_EQUAL(emptytree.size(), 0)
+        .CHECK_OK(emptytree.insert(5))
+        .CHECK_EQUAL(emptytree.size(), 1)
+        .CHECK_EQUAL(emptytree.contains(5), true)
+        .CHECK_OK(emptytree.remove(5))
+        .CHECK_EQUAL(emptytree.contains(5), false)
+        .CHECK_THROWS(emptytree.remove(5))
+        .CHECK_EQUAL(emptytree.size(), 0)
 
-      .CHECK_EQUAL(threetree.size(), 3)
-      .CHECK_EQUAL(threetree.root(), 5)
-      .CHECK_EQUAL(threetree.parent(3), 5)
-      .CHECK_EQUAL(threetree.parent(7), 5)
-      .CHECK_EQUAL(threetree.left(5), 3)
-      .CHECK_EQUAL(threetree.right(5), 7)
-      .CHECK_THROWS(threetree.insert(3))
-      .CHECK_THROWS(threetree.left(6))
-      .CHECK_OK(threetree.print())
-      ////////////////////////////////////////
-      //////////////////my tests//////////////
-      ////////////////////////////////////////
-      .CHECK_OK(threetree.insert(9))
-      .CHECK_OK(threetree.insert(11))
-      .CHECK_OK(threetree.insert(12))
-      .CHECK_OK(threetree.insert(10))
-      .CHECK_THROWS(threetree.insert(11))
+        .CHECK_EQUAL(threetree.size(), 3)
+        .CHECK_EQUAL(threetree.root(), 5)
+        .CHECK_EQUAL(threetree.parent(3), 5)
+        .CHECK_EQUAL(threetree.parent(7), 5)
+        .CHECK_EQUAL(threetree.left(5), 3)
+        .CHECK_EQUAL(threetree.right(5), 7)
+        .CHECK_THROWS(threetree.insert(3))
+        .CHECK_THROWS(threetree.left(6))
+        .CHECK_OK(threetree.print())
+        ////////////////////////////////////////
+        //////////////////my tests//////////////
+        ////////////////////////////////////////
+        .CHECK_OK(threetree.insert(9))
+        .CHECK_OK(threetree.insert(11))
+        .CHECK_OK(threetree.insert(12))
+        .CHECK_OK(threetree.insert(10))
+        .CHECK_THROWS(threetree.insert(11))
 
-      .CHECK_OK(threetree.remove(11))
-      .CHECK_THROWS(threetree.remove(11))
-      .CHECK_EQUAL(threetree.right(9), 12)
-      .CHECK_THROWS(threetree.left(9))
-      .CHECK_THROWS(threetree.right(10))
-      .CHECK_EQUAL(threetree.left(5),3)
-      .CHECK_THROWS(threetree.left(3))
-      .CHECK_THROWS(threetree.left(3))
+        .CHECK_OK(threetree.remove(11))
+        .CHECK_THROWS(threetree.remove(11))
+        .CHECK_EQUAL(threetree.right(9), 12)
+        .CHECK_THROWS(threetree.left(9))
+        .CHECK_THROWS(threetree.right(10))
+        .CHECK_EQUAL(threetree.left(5),3)
+        .CHECK_THROWS(threetree.left(3))
+        .CHECK_THROWS(threetree.left(3))
 
+        .print();
 
+    cout << "You have " << tc.right() << " right answers and " << tc.wrong() << " wrong answers so your grade is " << tc.grade() << ". Great!" << endl;
 
-      .print();
-
-  cout << "You have " << tc.right() << " right answers and " << tc.wrong() << " wrong answers so your grade is " << tc.grade() << ". Great!" << endl;
 }
