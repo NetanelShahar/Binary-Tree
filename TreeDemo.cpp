@@ -13,14 +13,14 @@ using std::cout, std::endl;
 
 int main() {
   try {
-    // // constructs an empty tree:
-    // ariel::Tree emptytree;
-    // cout << "emptytree: size=" << emptytree.size() << endl; // should print 0
+    // constructs an empty tree:
+    ariel::Tree emptytree;
+    cout << "emptytree: size=" << emptytree.size() << endl; // should print 0
     
-    // // constructs an ordered binary tree where:
-    //   // 5 is in the root;
-    //   // 3 is the root's left child;
-    //   // 7 is the root's right child.
+    // constructs an ordered binary tree where:
+      // 5 is in the root;
+      // 3 is the root's left child;
+      // 7 is the root's right child.
     // ariel::Tree threetree;
     // threetree.insert(5);
     // threetree.insert(7);
@@ -39,13 +39,17 @@ int main() {
 
   ariel::Tree threetree;
     threetree.insert(5);
-    // threetree.insert(7);
-    // threetree.insert(3);
+    threetree.insert(7);
+    threetree.insert(3);
+    threetree.insert(6);
+
 
    threetree.print();
 
 
-   threetree.remove(5);
+  //  threetree.remove(7);
+   threetree.remove(7);
+   
    cout<<"LLLLLL"<<endl;
    threetree.print();
    cout<<"GGGGGG"<<endl;
