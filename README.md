@@ -1,11 +1,11 @@
 # cpp - Projects
 ## Binary tree
 
-### Eliashiv Deri - 305368433
+### Eliashiv Deri
 
-### Netanel Ben Issachar -
+### Netanel Ben-Isahar
 
-### Yarden Golan -
+### Yarden Gaon
 
 ## General Project Description:
 A binary tree is a dynamic data structure made up of two-pointed vertices of the same type.
