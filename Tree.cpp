@@ -186,56 +186,164 @@ bool Tree::helpContains(Node *node, int x) // a recursive method that check if o
 
 void Tree::remove(int x) //a method for removing some elements from our tree.
 {
-        cout<<"remove"<<endl;
+    cout << "remove" << endl;
 
     if (!contains(x))
     {
         throw string("this tree does not contains ");
         return;
     }
-    Node* target = catch_num(myroot, x);
+
+    Node *target = catch_num(myroot, x);
 
     //Node *target = &target;
     if (target->left == NULL && target->right == NULL) //////case 1
     {
-        if (target->parent->left==target) {
-            target->parent->left=NULL;
-        }else{target->parent->right=NULL;}
-        
-        delete target;
-        target = nullptr;
-        tree_size--;
-        return ;
+        removeZEROchildren(target);
+        return;
     }
-    if (((target->left == NULL) || (target->right == NULL)) && (target->parent->left == target)) ////case 2.1             
+    else if ((target->left == NULL) || (target->right == NULL))
+    {
+        removeONEchild(target);
+        return;
+    }
+    else
+    {
+        removeTWOchildren(target);
+        return;
+    }
+}
+
+void Tree::removeZEROchildren(Node *target)
+{
+    if (target->parent->left == target)
+    {
+        target->parent->left = NULL;
+    }
+    else
+    {
+        target->parent->right = NULL;
+    }
+
+    delete target;
+    target = nullptr;
+    tree_size--;
+    return;
+}
+
+void Tree::removeONEchild(Node *target)
+{
+    if (((target->left == NULL) || (target->right == NULL)) && (target->parent->left == target)) ////case 2.1
     {
         if (target->left != NULL)
         {
             target->parent->left = target->left;
             target->left->parent = target->parent;
             delete target;
+            target = nullptr;
+            tree_size--;
+            return;
         }
-        if (target->right != NULL)
+        else if (target->right != NULL)
         {
             target->parent->left = target->right;
             target->right->parent = target->parent;
             delete target;
+            target = nullptr;
+            tree_size--;
+            return;
         }
     }
+    else
 
-    if (((target->left == NULL) || (target->right == NULL)) && (target->parent->right == target)) ////case 2.2
+        if (((target->left == NULL) || (target->right == NULL)) && (target->parent->right == target)) ////case 2.2
     {
         if (target->left != NULL)
         {
             target->parent->right = target->left;
             target->left->parent = target->parent;
             delete target;
+            target = nullptr;
+            tree_size--;
+            return;
         }
         if (target->right != NULL)
         {
             target->parent->right = target->right;
             target->right->parent = target->parent;
             delete target;
+            target = nullptr;
+            tree_size--;
+            return;
         }
     }
+}
+
+void Tree::removeTWOchildren(Node *target)
+{
+    Node *next_num = find_next(target);
+    cout << "next_num: " << next_num->data << endl;
+    //Node* temp;
+
+    cout << "--------------------------------\n";
+    this->print();
+    cout << "--------------------------------\n";
+
+    // if (target->parent->left==target) {
+    //     target->parent->left=next_num;
+    // }else{target->parent->right=next_num;}
+
+    // if (next_num->parent->left==next_num) {
+    //     next_num->parent->left=target;
+    // }else{next_num->parent->right=target;}
+
+    // cout<<"--------------------------------\n";
+    // this->print();
+    // cout<<"--------------------------------\n";
+
+    //temp->data=target->data;
+    // temp->left=target->left;
+    // temp->right=target->right;
+    // temp->parent=target->parent;
+
+    // //target->data=next_num->data;
+    // target->left=next_num->left;
+    // target->right=next_num->right;
+    // target->parent=next_num->parent;
+
+    // //next_num->data=temp->data;
+    // next_num->left=temp->left;
+    // next_num->right=temp->right;
+    // next_num->parent=temp->parent;
+
+    // cout<<"--------------------------------\n";
+    // this->print();
+    // cout<<"--------------------------------\n";
+
+    int tempo = target->data;
+    target->data = next_num->data;
+    next_num->data = tempo;
+
+    if (next_num->left == NULL && next_num->right == NULL)
+    {
+        removeZEROchildren(next_num);
+    }
+    else
+    {
+        removeONEchild(next_num);
+    }
+
+    cout << "--------------------------------\n";
+    this->print();
+    cout << "--------------------------------\n";
+}
+
+Node *Tree::find_next(Node *node)
+{
+    node = node->right;
+    while (node->left != NULL)
+    {
+        node = node->left;
+    }
+    return node;
 }
