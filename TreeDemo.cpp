@@ -39,18 +39,18 @@ int main() {
 
   ariel::Tree threetree;
     threetree.insert(5);
-    threetree.insert(7);
-    threetree.insert(3);
+    // threetree.insert(7);
+    // threetree.insert(3);
 
-    cout<<threetree.contains(5);
-    cout<<threetree.contains(7);
-    cout<<threetree.contains(3);
+   threetree.print();
 
-    cout<<threetree.contains(2);
-    cout<<threetree.contains(4);
-    cout<<threetree.contains(6);
-    cout<<threetree.contains(8);
-    cout<<threetree.contains(5);
+
+   threetree.remove(5);
+   cout<<"LLLLLL"<<endl;
+   threetree.print();
+   cout<<"GGGGGG"<<endl;
+
+    
     
 
   } catch (...) {

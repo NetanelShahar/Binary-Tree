@@ -15,42 +15,41 @@ Node::Node(int x)
     this->data = x;
     this->left = this->right = this->parent = NULL;
 }
-Tree::Tree()
+
+// Node::~Node()
+// {
+//     delete this;
+// }
+
+Tree::Tree()//constructor for Tree
 {
     Tree::myroot = NULL;
     tree_size = 0;
 }
 
-Tree::~Tree()
+Tree::~Tree()//destructor for Tree
 {
-
-    // Remove_auxiliary_tree(myroot);
+    if (myroot == nullptr)
+        return;
+    clear(myroot);
 }
 
-// //Re-creation of leaves
-// Tree::node *Tree::Creat_Leaf(int x)
-// {
-
-// 	if(contains(x)==true) {
-// 		throw std::invalid_argument("The number already exists in the tree");
-// 		return NULL;
-// }
-// 	node* N = new node;
-// 	N->x = x;
-// 	N->left = NULL;
-// 	N->right = NULL;
-
-// 	return N;
-// }
-/////////////////////////////////////////////////////
-
-void Tree::insert(int x)
+void Tree::clear(Node *node)//a recursive function that clear the tree from the leaves to the root.
 {
-    if (contains(x))
+    if (node->left != nullptr)
+        return clear(node->left);
+    if (node->right != nullptr)
+        return clear(node->right);
+    delete node;
+}
+
+void Tree::insert(int x)// insert a node to the tree. It use the helpInsert function.
+{
+    if (contains(x))//checks if we alredy have the value.
         return;
     Node *newNode = new Node(x);
 
-    if (tree_size == 0)
+    if (tree_size == 0)//if the tree is empty so the node gets into the root.
     {
         this->myroot = newNode;
         this->tree_size++;
@@ -59,14 +58,14 @@ void Tree::insert(int x)
     helpInsert(newNode, myroot, NULL);
 }
 
-void Tree::helpInsert(Node *newNode, Node *localNode, Node *parent)
+void Tree::helpInsert(Node *newNode, Node *localNode, Node *parent)//a recursive method that checks whre should be the new node and insert it. 
 {
 
-    if (localNode == NULL)
+    if (localNode == NULL)//if we got into null so the new node should be there.
     {
         localNode = newNode;
         newNode->parent = parent;
-        if (newNode->data > parent->data)
+        if (newNode->data > parent->data)//connect the relevant child to the parent.
         {
             parent->right = newNode;
         }
@@ -91,11 +90,11 @@ void Tree::helpInsert(Node *newNode, Node *localNode, Node *parent)
     }
 }
 
-void Tree::print() ///print in-order//
+void Tree::print() ///print in-order. It use with helpPrint method//
 {
     helpPrint(myroot);
 }
-void Tree::helpPrint(Node *node)
+void Tree::helpPrint(Node *node)// a recursive method for printing in-order.
 {
     if (node == NULL)
         return;
@@ -110,30 +109,29 @@ void Tree::helpPrint(Node *node)
     }
 }
 
-int Tree::parent(int x)
+int Tree::parent(int x)// looking for a specific node and return the value of it's parent.
 {
     if (!contains(x))
         throw string("this tree does not contains ");
     return catch_num(myroot, x).parent->data;
 }
 
-int Tree::right(int x)
+int Tree::right(int x)// looking for a specific node and return the value of it's right child.
 {
     if (!contains(x))
         throw string("this tree does not contains ");
     return catch_num(myroot, x).right->data;
 }
 
-int Tree::left(int x)
+int Tree::left(int x)// looking for a specific node and return the value of it's left child.
 {
     if (!contains(x))
         throw string("this tree does not contains ");
     return catch_num(myroot, x).left->data;
 }
 
-Node Tree::catch_num(Node *node, int x)
+Node Tree::catch_num(Node *node, int x)// a recursive method that gets a value and return the relevant node of it.
 {
-
     if (node->data == x)
         return *node;
     if (x < node->data)
@@ -141,90 +139,97 @@ Node Tree::catch_num(Node *node, int x)
     return catch_num(node->right, x);
 }
 
-int Tree::size()
+int Tree::size()//check how items we have in our tree. 
 {
 
     return tree_size;
 }
 
-int Tree::root()
+int Tree::root()// returns the value of the root
 {
     return this->myroot->data;
 }
 
-bool Tree::contains(int x)
+bool Tree::contains(int x)//check if our tree contains some value. It use the helpContains method.
 {
-    return helpContains(myroot,x);
+    return helpContains(myroot, x);
 }
-bool Tree::helpContains(Node *node, int x)
+bool Tree::helpContains(Node *node, int x)// a recursive method that check if our tree contains some value.
 {
     if (myroot == NULL)
     {
-        //cout<<"bbbbbbbbbbbbBBbbbb"<<endl;
         return false;
     }
 
     if (node->data == x)
     {
-        //cout<<"AaaaaaAAA"<<endl;
         return true;
-
     }
-    
-    if (x<node->data)
+
+    if (x < node->data)
     {
-        if(node->left==NULL)
-        return false;
-        return helpContains(node->left,x);
-    }else{
-    if(node->right==NULL)
-        return false;}
-    return helpContains(node->right,x);
+        if (node->left == NULL)
+            return false;
+        return helpContains(node->left, x);
+    }
+    else
+    {
+        if (node->right == NULL)
+            return false;
+    }
+    return helpContains(node->right, x);
 }
 
-bool Tree::remove(int x)
+void Tree::remove(int x)//a method for removing some elements from our tree.
 {
-    return true;
+        cout<<"remove"<<endl;
+
+    if (!contains(x))
+    {
+        throw string("this tree does not contains ");
+        return;
+    }
+    Node target = catch_num(myroot, x);
+
+    Node *ptarget = &target;
+    if (target.left == NULL && target.right == NULL) //////case 1
+    {
+        
+        delete ptarget;
+        ptarget = nullptr;
+        tree_size--;
+        return ;
+    }
+    // if (((ptarget->left == NULL) || (ptarget->right == NULL)) && (ptarget->parent->left == ptarget)) ////case 2.1
+    // {
+    //     if (ptarget->left != NULL)
+    //     {
+    //         ptarget->parent->left = ptarget->left;
+    //         ptarget->left->parent = ptarget->parent;
+    //         delete ptarget;
+    //     }
+    //     if (ptarget->right != NULL)
+    //     {
+    //         ptarget->parent->left = ptarget->right;
+    //         ptarget->right->parent = ptarget->parent;
+    //         delete ptarget;
+    //     }
+    // }
+
+    // if (((ptarget->left == NULL) || (ptarget->right == NULL)) && (ptarget->parent->right == ptarget)) ////case 2.2
+    // {
+    //     if (ptarget->left != NULL)
+    //     {
+    //         ptarget->parent->right = ptarget->left;
+    //         ptarget->left->parent = ptarget->parent;
+    //         delete ptarget;
+    //     }
+    //     if (ptarget->right != NULL)
+    //     {
+    //         ptarget->parent->right = ptarget->right;
+    //         ptarget->right->parent = ptarget->parent;
+    //         delete ptarget;
+    //     }
+    // }
+
 }
-
-///////////////// - Auxiliary functions - /////////////////
-
-// bool Tree::contains_Private(int x,node* y){
-
-// //if the tree is empty return false
-//     if(y==NULL) {
-//         return false;
-//     }
-//    //if it found ->return true
-//     if(y->x==x) {
-//         return true;
-//     }
-//     //Recursive testing
-//     else if(x < y->x) {
-
-//         return contains_Private(x,y->left);
-//     } else  {
-
-//         return contains_Private(x,y->right);
-
-//     }
-
-// }
-
-// void Tree::Remove_auxiliary_tree(node* N) {
-// //If it is not NULL
-// 	if (N != NULL) {
-
-// 		if (N->left != NULL){
-// 			Remove_auxiliary_tree(N->left);
-// 		}
-
-// 		if (N->right != NULL)	{
-// 			Remove_auxiliary_tree(N->right);
-// 		}
-// //Print
-// 		cout << "Deleting the node" << N->x << endl;
-
-// 		delete N;
-// 	}
-// }

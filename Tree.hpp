@@ -9,6 +9,7 @@ struct Node
 	Node* parent;
 
 	Node(int x);
+	// ~Node();
 };
 
 namespace ariel
@@ -28,6 +29,7 @@ class Tree
 	Node* myroot;
 
 	Tree();
+	void clear(Node* node);
 	void insert(int);
 	void print();
 	int parent(int x);
@@ -36,7 +38,7 @@ class Tree
 	int size();
 	int root();
 	bool contains(int x);
-	bool remove(int x);
+	void remove(int x);
 	~Tree();
 };
 } // namespace ariel
