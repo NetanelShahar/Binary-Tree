@@ -42,6 +42,7 @@ class Tree
 	void removeZEROchildren(Node* target);
 	void removeONEchild(Node* target);
 	void removeTWOchildren(Node* target);
+	void removeRoot();
 	~Tree();
 };
 } // namespace ariel

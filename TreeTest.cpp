@@ -48,14 +48,17 @@ int main()
       .CHECK_OK(threetree.insert(12))
       .CHECK_OK(threetree.insert(10))
       .CHECK_THROWS(threetree.insert(11))
+
       .CHECK_OK(threetree.remove(11))
       .CHECK_THROWS(threetree.remove(11))
-      .CHECK_EQUAL(threetree.right(9), 10)
+      .CHECK_EQUAL(threetree.right(9), 12)
       .CHECK_THROWS(threetree.left(9))
-      .CHECK_EQUAL(threetree.right(10), 12)
-      .CHECK_THROWS(threetree.left(5))
+      .CHECK_THROWS(threetree.right(10))
+      .CHECK_EQUAL(threetree.left(5),3)
       .CHECK_THROWS(threetree.left(3))
       .CHECK_THROWS(threetree.left(3))
+
+
 
       .print();
 

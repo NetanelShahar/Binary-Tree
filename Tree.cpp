@@ -16,11 +16,6 @@ Node::Node(int x)
     this->left = this->right = this->parent = NULL;
 }
 
-// Node::~Node()
-// {
-//     delete this;
-// }
-
 Tree::Tree() //constructor for Tree
 {
     Tree::myroot = NULL;
@@ -116,6 +111,10 @@ int Tree::parent(int x) // looking for a specific node and return the value of i
 {
     if (!contains(x))
         throw string("this tree does not contains ");
+    if (catch_num(myroot, x)->parent == NULL)
+    {
+        throw string("this tree does not contains ");
+    }
     return catch_num(myroot, x)->parent->data;
 }
 
@@ -123,6 +122,10 @@ int Tree::right(int x) // looking for a specific node and return the value of it
 {
     if (!contains(x))
         throw string("this tree does not contains ");
+    if (catch_num(myroot, x)->right == NULL)
+    {
+        throw string("this tree does not contains ");
+    }
     return catch_num(myroot, x)->right->data;
 }
 
@@ -130,7 +133,10 @@ int Tree::left(int x) // looking for a specific node and return the value of it'
 {
     if (!contains(x))
         throw string("this tree does not contains ");
-    ;
+    if (catch_num(myroot, x)->left == NULL)
+    {
+        throw string("this tree does not contains ");
+    }
     return catch_num(myroot, x)->left->data;
 }
 
@@ -186,7 +192,6 @@ bool Tree::helpContains(Node *node, int x) // a recursive method that check if o
 
 void Tree::remove(int x) //a method for removing some elements from our tree.
 {
-    cout << "remove" << endl;
 
     if (!contains(x))
     {
@@ -195,8 +200,12 @@ void Tree::remove(int x) //a method for removing some elements from our tree.
     }
 
     Node *target = catch_num(myroot, x);
+    if (target->data == myroot->data)
+    {
+        removeRoot();
+        return;
+    }
 
-    //Node *target = &target;
     if (target->left == NULL && target->right == NULL) //////case 1
     {
         removeZEROchildren(target);
@@ -282,43 +291,6 @@ void Tree::removeONEchild(Node *target)
 void Tree::removeTWOchildren(Node *target)
 {
     Node *next_num = find_next(target);
-    cout << "next_num: " << next_num->data << endl;
-    //Node* temp;
-
-    cout << "--------------------------------\n";
-    this->print();
-    cout << "--------------------------------\n";
-
-    // if (target->parent->left==target) {
-    //     target->parent->left=next_num;
-    // }else{target->parent->right=next_num;}
-
-    // if (next_num->parent->left==next_num) {
-    //     next_num->parent->left=target;
-    // }else{next_num->parent->right=target;}
-
-    // cout<<"--------------------------------\n";
-    // this->print();
-    // cout<<"--------------------------------\n";
-
-    //temp->data=target->data;
-    // temp->left=target->left;
-    // temp->right=target->right;
-    // temp->parent=target->parent;
-
-    // //target->data=next_num->data;
-    // target->left=next_num->left;
-    // target->right=next_num->right;
-    // target->parent=next_num->parent;
-
-    // //next_num->data=temp->data;
-    // next_num->left=temp->left;
-    // next_num->right=temp->right;
-    // next_num->parent=temp->parent;
-
-    // cout<<"--------------------------------\n";
-    // this->print();
-    // cout<<"--------------------------------\n";
 
     int tempo = target->data;
     target->data = next_num->data;
@@ -333,9 +305,45 @@ void Tree::removeTWOchildren(Node *target)
         removeONEchild(next_num);
     }
 
-    cout << "--------------------------------\n";
-    this->print();
-    cout << "--------------------------------\n";
+}
+
+void Tree::removeRoot()
+{
+    if (myroot->left == NULL && myroot->right == NULL)
+    {
+        delete myroot;
+        myroot = nullptr;
+        tree_size--;
+        return;
+    }
+    else if (myroot->left == NULL)
+    {
+
+        myroot = myroot->right;
+        myroot->parent = NULL;
+    }
+    else if (myroot->right == NULL)
+    {
+        myroot = myroot->left;
+        myroot->parent = NULL;
+    }
+    else
+    {
+        Node *next_num = find_next(myroot);
+
+        int tempo = myroot->data;
+        myroot->data = next_num->data;
+        next_num->data = tempo;
+
+        if (next_num->left == NULL && next_num->right == NULL)
+        {
+            removeZEROchildren(next_num);
+        }
+        else
+        {
+            removeONEchild(next_num);
+        }
+    }
 }
 
 Node *Tree::find_next(Node *node)

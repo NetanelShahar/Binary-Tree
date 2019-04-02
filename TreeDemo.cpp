@@ -40,11 +40,12 @@ int main() {
   ariel::Tree threetree;
     threetree.insert(5);
     threetree.insert(3);
+    threetree.insert(7);
+    threetree.insert(9);
+    threetree.insert(11);
     threetree.insert(10);
-    threetree.insert(8);
-    threetree.insert(15);
-    threetree.insert(13);
-    threetree.insert(17);
+    threetree.insert(12);
+    
 
 
   //  threetree.print();
